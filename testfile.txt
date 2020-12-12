@@ -1,0 +1,6 @@
+abcd
+
+--Check url of repo
+git config --get remote.origin.url
+git remote show origin
+
