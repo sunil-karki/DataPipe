@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"time"
+
+	"./handlers"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +30,44 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	// http.HandleFunc("/", handler)
+	l := log.New(os.Stdout, "product-api", log.LstdFlags)
+	hh := handlers.NewAbout(l)
 
-	http.ListenAndServe(":9090", nil)
+	smux := http.NewServeMux()
+	smux.Handle("/", hh)
+
+	s := &http.Server{
+		Addr:         ":9090",
+		Handler:      smux,
+		IdleTimeout:  120 * time.Second,
+		ReadTimeout:  1 * time.Second,
+		WriteTimeout: 1 * time.Second,
+	}
+
+	// http.ListenAndServe(":9090", nil)
+	// http.ListenAndServe(":9090", smux)
+	// s.ListenAndServe()
+
+	go func() {
+		err := s.ListenAndServe()
+		if err != nil {
+			l.Fatal(err)
+		}
+	}()
+
+	sigChan := make(chan os.Signal)
+	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, os.Kill)
+
+	sig := <-sigChan
+	l.Println("Received terminate, graceful shutdown", sig)
+
+	tc, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	// The goroutine that WithCancel or WithTimeout created will be retained in memory indefinitely (until the program shuts down), causing a memory leak.
+	// If done repeatedly, memory will balloon significantly. So defer cancel() done.
+	defer cancel()
+
+	s.Shutdown(tc)
+
 }
