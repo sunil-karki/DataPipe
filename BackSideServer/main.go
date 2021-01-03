@@ -32,12 +32,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	// http.HandleFunc("/", handler)
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
-	hh := handlers.NewAbout(l)
+	// hh := handlers.NewAbout(l)
 	ph := handlers.NewProducts(l)
 
 	smux := http.NewServeMux()
-	smux.Handle("/", hh)
-	smux.Handle("/products", ph)
+	smux.Handle("/", ph)
+	// smux.Handle("/products", ph)
 
 	s := &http.Server{
 		Addr:         ":9090",
