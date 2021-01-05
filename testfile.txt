@@ -17,3 +17,30 @@ Do the merge, and then pull the stash:
 
 git stash pop
 
+==============================================================================================
+
+## Git Merge Overwrite changes of branch to master
+
+Before you touch anything
+
+git stash
+git status # if anything shows up here, move it to your desktop
+
+Now prepare master
+
+git checkout master
+git pull # if there is a problem in this step, it is outside the scope of this answer
+
+Get feature all dressed up
+
+git checkout feature
+git merge --strategy=ours master
+
+Go for the kill
+
+git checkout master
+git merge --no-ff feature
+
+==============================================================================================
+
+
