@@ -44,3 +44,18 @@ git merge --no-ff feature
 ==============================================================================================
 
 
+git reset
+"uncommit". To undo the act of committing and leaving everything else intact, use:
+
+git reset --soft HEAD^
+
+To undo the act committing and everything staged, but leave the work tree (your files intact):
+
+git reset HEAD^
+
+To completely undo it, throwing away all uncommitted changes, resetting everything to the previous commit (as the original question asked):
+
+git reset --hard HEAD^
+
+==============================================================================================
+
