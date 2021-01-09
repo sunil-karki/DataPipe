@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -11,23 +9,8 @@ import (
 	"time"
 
 	"./handlers"
+	"github.com/gorilla/mux"
 )
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!\n", r.URL.Path[1:])
-	d, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Ooops", http.StatusBadRequest)
-		log.Printf("Logging: Found Error in Reading...")
-		fmt.Fprintf(os.Stdout, "Responding: Found Error in  Reading...\n")
-
-	} else {
-		log.Printf("Logging: Data %s", d)
-		fmt.Fprintf(os.Stdout, "Responding to Server: Data %s\n", d)
-		fmt.Fprintf(w, "Responding to User: Data %s\n", d)
-	}
-
-}
 
 func main() {
 	// http.HandleFunc("/", handler)
@@ -35,9 +18,20 @@ func main() {
 	// hh := handlers.NewAbout(l)
 	ph := handlers.NewProducts(l)
 
-	smux := http.NewServeMux()
-	smux.Handle("/", ph)
-	// smux.Handle("/products", ph)
+	smux := mux.NewRouter()
+	// smux.Handle("/", ph)
+
+	getRouter := smux.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+
+	putRouter := smux.Methods(http.MethodPut).Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProducts)
+	putRouter.Use(ph.MiddlewareValidateProduct)
+	// Middleware implements first then the UpdateProducts handler starts to work.
+
+	postRouter := smux.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/", ph.AddProduct)
+	postRouter.Use(ph.MiddlewareValidateProduct)
 
 	s := &http.Server{
 		Addr:         ":9090",
@@ -46,10 +40,6 @@ func main() {
 		ReadTimeout:  1 * time.Second,
 		WriteTimeout: 1 * time.Second,
 	}
-
-	// http.ListenAndServe(":9090", nil)
-	// http.ListenAndServe(":9090", smux)
-	// s.ListenAndServe()
 
 	go func() {
 		err := s.ListenAndServe()
