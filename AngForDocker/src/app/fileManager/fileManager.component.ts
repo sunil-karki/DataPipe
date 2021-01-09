@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+// import { FileUploadService } from './fileManager.service'; 
 // import { Ingredient } from '../shared/ingredient.model';
 
 @Component({
@@ -8,17 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fileManager.component.css']
 })
 export class FileManagerComponent implements OnInit {
-  // ingredients: Ingredient[] = [
-  //   new Ingredient('Apples', 5),
-  //   new Ingredient('Tomatoes', 10),
-  // ];
 
-  constructor() { }
+  // afuConfig = {
+  //   uploadAPI: {
+  //     url:"https://localhost:9090/"
+  //   }
+  // };
+ 
+  constructor() { 
+  }
 
   ngOnInit() {
   }
 
-  // onIngredientAdded(ingredient: Ingredient) {
-  //   this.ingredients.push(ingredient);
-  // }
 }
