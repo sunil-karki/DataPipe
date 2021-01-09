@@ -1,6 +1,35 @@
-# AngForDocker
+# Adding Bootstrap
+One links added as 
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+[Inside head]
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+And other links as 
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+[Inside Body]
+
+Three links can be added as follows above
+--------------------------------------------------------------------------------------------------------------------------------
+
+Next Method ::
+npm install bootstrap@3 jquery --save
+
+Then Add following in the Angular.json File
+
+            "styles": [
+              "src/styles.css",
+              "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": [
+              "../node_modules/jquery/dist/jquery.min.js",
+              "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+
+--------------------------------------------------------------------------------------------------------------------------------            
+
+# Sample
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.6.
 
 ## Development server
 
