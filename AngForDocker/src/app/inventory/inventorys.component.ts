@@ -15,12 +15,12 @@ export class InventorysComponent implements OnInit {
   constructor(private InventorysService: InventoryService) { }
 
   ngOnInit() {
-    return this.InventorysService.getData()
-                .subscribe(data => {
-                  this.fileData = data;
-                  console.log('test haah')
-                  console.log(data)
-                })
+    // return this.InventorysService.getData()
+    //             .subscribe(data => {
+    //               this.fileData = data;
+    //               console.log('test haah')
+    //               console.log(data)
+                // })
   }
 
 }
