@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DataTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'id', 'filename', 'description', 'filedate', 'source'];
 //   dataSource = ELEMENT_DATA;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   
@@ -33,21 +33,25 @@ export class DataTableComponent implements OnInit {
 /* Static data */ 
 
 export interface PeriodicElement {
-    name: string;
     position: number;
-    weight: number;
-    symbol: string;
+    id: number;
+    filename: string;
+    description: string;
+    filedate: string;
+    source: string;
 }
   
 const ELEMENT_DATA: PeriodicElement[] = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-    { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-    { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-    { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-    { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-    { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+    { position: 1, id: 1.0079, filename: 'Hydrogen', description: 'Sth abt File', filedate: '2020-02-11',  source: 'H' },
+    { position: 2, id: 1.0079, filename: 'Helium', description: 'Sth abt File', filedate: '2020-02-11', source: 'He' },
+    { position: 3, id: 1.0079, filename: 'Lithium', description: 'Sth abt File', filedate: '2020-02-11', source: 'Li' },
+    { position: 4, id: 1.0079, filename: 'Beryllium', description: 'Sth abt File', filedate: '2020-02-11', source: 'Be' },
+    { position: 5, id: 1.0079, filename: 'Boron', description: 'Sth abt File', filedate: '2020-02-11', source: 'B' },
+    { position: 6, id: 1.0079, filename: 'Carbon', description: 'Sth abt File', filedate: '2020-02-11', source: 'C' },
+    { position: 7, id: 1.0079, filename: 'Nitrogen', description: 'Sth abt File', filedate: '2020-02-11', source: 'N' },
+    { position: 8, id: 1.0079, filename: 'Oxygen', description: 'Sth abt File', filedate: '2020-02-11', source: 'O' },
+    { position: 9, id: 1.0079, filename: 'Fluorine', description: 'Sth abt File', filedate: '2020-02-11', source: 'F' },
+    { position: 10, id: 1.0079, filename: 'Neon', description: 'Sth abt File', filedate: '2020-02-11', source: 'Ne' },
 ];
+
+// [{"id":1,"filename":"Latte","description":"Frothy milky coffee","filedate":"2.45","sku":"abc323"},{"id":2,"name":"Espresso","description":"Short and strong coffee without milk","price":1.99,"sku":"fjd34"}]

@@ -17,6 +17,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { InventoryService } from './inventory/inventory.service';
 
 const materialModules = [
   MatTableModule,
@@ -48,7 +49,7 @@ const materialModules = [
   exports: [
     materialModules
   ],
-  providers: [],
+  providers: [InventoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
