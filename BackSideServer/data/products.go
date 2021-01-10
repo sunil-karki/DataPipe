@@ -9,14 +9,12 @@ import (
 
 // Product defines the structure for an API product
 type Product struct {
-	ID          int     `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Price       float32 `json:"price"`
-	SKU         string  `json:"sku"`
-	CreatedOn   string  `json:"-"`
-	UpdatedOn   string  `json:"-"`
-	DeletedOn   string  `json:"-"`
+	Fileid      int    `json:"fileid"`
+	Position    int    `json:"position"`
+	Filename    string `json:"filename"`
+	Description string `json:"description"`
+	Filedate    string `json:"filedate"`
+	Source      string `json:"source"`
 }
 
 // Products is a collection of Product
@@ -26,27 +24,25 @@ type Products []*Product
 // example data source
 var productList = []*Product{
 	&Product{
-		ID:          1,
-		Name:        "Latte",
+		Fileid:      1,
+		Position:    1,
+		Filename:    "Latte",
 		Description: "Frothy milky coffee",
-		Price:       2.45,
-		SKU:         "abc323",
-		CreatedOn:   time.Now().UTC().String(),
-		UpdatedOn:   time.Now().UTC().String(),
+		Filedate:    time.Now().UTC().String(),
+		Source:      "abc323",
 	},
 	&Product{
-		ID:          2,
-		Name:        "Espresso",
+		Fileid:      2,
+		Position:    2,
+		Filename:    "Espresso",
 		Description: "Short and strong coffee without milk",
-		Price:       1.99,
-		SKU:         "fjd34",
-		CreatedOn:   time.Now().UTC().String(),
-		UpdatedOn:   time.Now().UTC().String(),
+		Filedate:    time.Now().UTC().String(),
+		Source:      "fjd34",
 	},
 }
 
 // ToJSON serializes the contents of the collection to JSON
-// NewEncoder provides better performance than json.Unmarshal as it does not
+// NewEncoder provPositiones better performance than json.Unmarshal as it does not
 // have to buffer the output into an in memory slice of bytes
 // this reduces allocations and the overheads of the service
 //
@@ -69,18 +65,18 @@ func GetProducts() Products {
 
 // AddProduct adds product
 func AddProduct(p *Product) {
-	p.ID = getNextID()
+	p.Position = getNextPosition()
 	productList = append(productList, p)
 }
 
 // UpdateProduct updates the value of the Product
-func UpdateProduct(id int, p *Product) error {
-	_, pos, err := findProduct(id)
+func UpdateProduct(Position int, p *Product) error {
+	_, pos, err := findProduct(Position)
 	if err != nil {
 		return err
 	}
 
-	p.ID = id
+	p.Position = Position
 	productList[pos] = p
 
 	return nil
@@ -90,9 +86,9 @@ func UpdateProduct(id int, p *Product) error {
 var ErrProductNotFound = fmt.Errorf("Product not found")
 
 // findProduct to go through all Products and find a particular Product
-func findProduct(id int) (*Product, int, error) {
+func findProduct(Position int) (*Product, int, error) {
 	for i, p := range productList {
-		if p.ID == id {
+		if p.Position == Position {
 			return p, i, nil
 		}
 	}
@@ -100,9 +96,9 @@ func findProduct(id int) (*Product, int, error) {
 	return nil, -1, ErrProductNotFound
 }
 
-// getNextID returns next ID for new product
-func getNextID() int {
+// getNextPosition returns next Position for new product
+func getNextPosition() int {
 	fmt.Println(len(productList))
 	lp := productList[len(productList)-1]
-	return lp.ID + 1
+	return lp.Position + 1
 }

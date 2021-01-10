@@ -10,6 +10,7 @@ import (
 
 	"./handlers"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -33,9 +34,15 @@ func main() {
 	postRouter.HandleFunc("/", ph.AddProduct)
 	postRouter.Use(ph.MiddlewareValidateProduct)
 
+	// Solves Cross Origin Access Issue
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:4200"},
+	})
+	handler := c.Handler(smux)
+
 	s := &http.Server{
 		Addr:         ":9090",
-		Handler:      smux,
+		Handler:      handler,
 		IdleTimeout:  120 * time.Second,
 		ReadTimeout:  1 * time.Second,
 		WriteTimeout: 1 * time.Second,

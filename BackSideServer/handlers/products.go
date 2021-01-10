@@ -3,6 +3,7 @@ package handlers
 // curl localhost:9090/3 -XPUT | jq  -->  Replaces list that has Id 3
 // curl localhost:9090/3 -XPUT -d '{"name": "sunilkarki", "description": "student", "price": 25, "sku": "skuee"}' | jq
 // curl localhost:9090/ -X POST -d '{"name": "sunilkarki", "description": "student", "price": 25, "sku": "skuee"}'
+// curl localhost:9090/ -X POST -d '{"fileid": 6, "position": 6, "filename": "sunilkarki", "description": "student", "filedate": "2020-02-04", "source": "ABC"}'
 
 import (
 	"context"
