@@ -26,6 +26,11 @@ Then Add following in the Angular.json File
             ]
 
 --------------------------------------------------------------------------------------------------------------------------------            
+# Then add Angular Material for DataTable
+ng add @angular/material
+Then Add MatTableModule, MatPaginatorModule, MatSortModule to the App Module
+
+--------------------------------------------------------------------------------------------------------------------------------
 
 # Sample
 
