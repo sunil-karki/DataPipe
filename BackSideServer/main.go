@@ -8,15 +8,20 @@ import (
 	"os/signal"
 	"time"
 
+	"./env"
 	"./files"
 	"./handlers"
 	"github.com/gorilla/mux"
+	"github.com/hashicorp/go-hclog"
 	"github.com/rs/cors"
 )
 
+//////////Section For file uploading and serving//////////////////////////////////////////////
 var bindAddress = env.String("BIND_ADDRESS", false, ":9090", "Bind address for the server")
 var logLevel = env.String("LOG_LEVEL", false, "debug", "Log output level for the server [debug, info, trace]")
 var basePath = env.String("BASE_PATH", false, "./imagestore", "Base path to save images")
+
+//////////////////////////////////////////////
 
 func main() {
 	// http.HandleFunc("/", handler)
@@ -25,16 +30,28 @@ func main() {
 	ph := handlers.NewProducts(l)
 
 	//////////Section For file uploading and serving//////////////////////////////////////////////
+	env.Parse()
+
+	lg := hclog.New(
+		&hclog.LoggerOptions{
+			Name:  "product-images",
+			Level: hclog.LevelFromString(*logLevel),
+		},
+	)
+
+	// create a logger for the server from the default logger
+	sl := lg.StandardLogger(&hclog.StandardLoggerOptions{InferLevels: true})
+
 	// create the storage class, use local storage
 	// max filesize 5MB
 	stor, err := files.NewLocal(*basePath, 1024*1000*5)
 	if err != nil {
-		l.Error("Unable to create storage", "error", err)
+		lg.Error("Unable to create storage", "error", err)
 		os.Exit(1)
 	}
 
 	// create the another handlers.
-	fh := handlers.NewFiles(stor, l)
+	fh := handlers.NewFiles(stor, lg)
 	//////////////////////////////////////////////
 
 	// creating a new serve mux and registering the handlers
@@ -54,8 +71,8 @@ func main() {
 	postRouter.Use(ph.MiddlewareValidateProduct)
 
 	///////// Section For file uploading and serving//////////////////////////////////////////////
-	ph := sm.Methods(http.MethodPost).Subrouter()
-	ph.HandleFunc("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", fh.ServeHTTP)
+	phf := smux.Methods(http.MethodPost).Subrouter()
+	phf.HandleFunc("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", fh.ServeHTTP)
 	///////////////////////////////////////////////
 
 	// Solves Cross Origin Access Issue
@@ -67,9 +84,10 @@ func main() {
 	s := &http.Server{
 		Addr:         ":9090",
 		Handler:      handler,
-		IdleTimeout:  120 * time.Second,
-		ReadTimeout:  1 * time.Second,
-		WriteTimeout: 1 * time.Second,
+		ErrorLog:     sl,                // the logger for the server
+		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
+		ReadTimeout:  1 * time.Second,   // max time to read request from the client
+		WriteTimeout: 1 * time.Second,   // max time to write response to the client
 	}
 
 	go func() {
