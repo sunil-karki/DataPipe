@@ -1,5 +1,11 @@
 package handlers
 
+// Uploading files
+// curl localhost:9090/images/1/uploaded.png -d @testpic.png
+// Getting files
+// curl localhost:9090/images/1/uploaded.png
+// Gets/Uploads you ACII converted files
+
 import (
 	"net/http"
 	"path/filepath"
@@ -7,7 +13,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/go-hclog"
 
-	// "github.com/nicholasjackson/building-microservices-youtube/product-images/files"
 	"../files"
 )
 

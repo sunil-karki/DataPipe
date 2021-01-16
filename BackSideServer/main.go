@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -73,7 +74,11 @@ func main() {
 	///////// Section For file uploading and serving//////////////////////////////////////////////
 	phf := smux.Methods(http.MethodPost).Subrouter()
 	phf.HandleFunc("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", fh.ServeHTTP)
-	///////////////////////////////////////////////
+
+	// get files
+	ghf := smux.Methods(http.MethodGet).Subrouter()
+	ghf.Handle("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", http.StripPrefix("/images/", http.FileServer(http.Dir(*basePath))))
+	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Solves Cross Origin Access Issue
 	c := cors.New(cors.Options{
@@ -90,6 +95,8 @@ func main() {
 		WriteTimeout: 1 * time.Second,   // max time to write response to the client
 	}
 
+	l.Println("BackServer RUNNING ...")
+
 	go func() {
 		err := s.ListenAndServe()
 		if err != nil {
@@ -102,6 +109,7 @@ func main() {
 	signal.Notify(sigChan, os.Kill)
 
 	sig := <-sigChan
+	fmt.Println()
 	l.Println("Received terminate, graceful shutdown", sig)
 
 	tc, cancel := context.WithTimeout(context.Background(), 30*time.Second)
