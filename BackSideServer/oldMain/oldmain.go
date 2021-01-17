@@ -1,4 +1,4 @@
-package main
+package oldmain
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"os/signal"
 	"time"
 
-	"./env"
-	"./files"
-	"./handlers"
+	"../env"
+	"../files"
+	"../handlers"
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/go-hclog"
 	"github.com/rs/cors"
@@ -24,7 +24,7 @@ var basePath = env.String("BASE_PATH", false, "./imagestore", "Base path to save
 
 //////////////////////////////////////////////
 
-func main() {
+func oldmain() {
 	// http.HandleFunc("/", handler)
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 	// hh := handlers.NewAbout(l)
@@ -53,8 +53,7 @@ func main() {
 
 	// create the another handlers.
 	fh := handlers.NewFiles(stor, lg)
-	mw := handlers.GzipHandler{}
-	//////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	// creating a new serve mux and registering the handlers
 	smux := mux.NewRouter()
@@ -80,7 +79,6 @@ func main() {
 	// get files
 	ghf := smux.Methods(http.MethodGet).Subrouter()
 	ghf.Handle("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", http.StripPrefix("/images/", http.FileServer(http.Dir(*basePath))))
-	ghf.Use(mw.GzipMiddleware)
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Solves Cross Origin Access Issue
