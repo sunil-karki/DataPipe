@@ -1,0 +1,18 @@
+Install MongoDB
+
+sudo systemctl mongod stop
+sudo systemctl restart mongod
+sudo systemctl start mongod
+
+-----------------------------------------------------------
+
+Install MongoDB Driver for Golang
+Follow Link : https://docs.mongodb.com/drivers/go
+
+-- Can ignore the line below
+go mod init goproj
+
+Then hit the command below
+go get go.mongodb.org/mongo-driver/mongo
+
+Then MongoDB Driver gets installed.
