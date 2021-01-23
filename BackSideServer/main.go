@@ -26,16 +26,21 @@ var basePath = env.String("BASE_PATH", false, "./imagestore", "Base path to save
 
 func main() {
 	// http.HandleFunc("/", handler)
-	l := log.New(os.Stdout, "product-api", log.LstdFlags)
+	l := log.New(os.Stdout, "files-api", log.LstdFlags)
 	// hh := handlers.NewAbout(l)
 	ph := handlers.NewProducts(l)
 
-	//////////Section For file uploading and serving//////////////////////////////////////////////
+	////////// Creating Connection with the MongoDB //////////////////////////////////////////////
+	// conn := dbconnection.NewConnection(l)
+	// conn.connection()
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	////////// Section For file uploading and serving ////////////////////////////////////////////
 	env.Parse()
 
 	lg := hclog.New(
 		&hclog.LoggerOptions{
-			Name:  "product-images",
+			Name:  "file-images",
 			Level: hclog.LevelFromString(*logLevel),
 		},
 	)
