@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"time"
 
+	"./dbconnection"
 	"./env"
 	"./files"
 	"./handlers"
@@ -26,13 +27,13 @@ var basePath = env.String("BASE_PATH", false, "./imagestore", "Base path to save
 
 func main() {
 	// http.HandleFunc("/", handler)
-	l := log.New(os.Stdout, "files-api", log.LstdFlags)
+	l := log.New(os.Stdout, "files-api ", log.LstdFlags)
 	// hh := handlers.NewAbout(l)
 	ph := handlers.NewProducts(l)
 
 	////////// Creating Connection with the MongoDB //////////////////////////////////////////////
-	// conn := dbconnection.NewConnection(l)
-	// conn.connection()
+	conn := dbconnection.NewConnection(l)
+	conn.Connect()
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////// Section For file uploading and serving ////////////////////////////////////////////
