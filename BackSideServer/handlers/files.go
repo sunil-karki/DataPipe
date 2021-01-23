@@ -10,8 +10,11 @@ package handlers
 // curl -v localhost:9090/images/1/testpic2.png -o file.png
 
 import (
+	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
 
@@ -43,6 +46,20 @@ func (f *Files) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// no need to check for invalid id or filename as the mux router will not send requests
 	// here unless they have the correct parameters
 
+	fmt.Println(r.Body)
+
+	// To see the content of http.Request
+	reqbody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error: On Ioutil ....")
+	}
+
+	fmt.Println(string(reqbody))
+
+	io.Copy(os.Stdout, r.Body) // this line.
+	fmt.Println()
+	fmt.Println(r)
+
 	// f.saveFile(id, fn, rw, r)
 	f.saveFile(id, fn, rw, r.Body)
 }
@@ -72,6 +89,8 @@ func (f *Files) UploadMultipart(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "Expected file", http.StatusBadRequest)
 		return
 	}
+
+	fmt.Println("UploadMulti : ", ff)
 
 	f.saveFile(r.FormValue("id"), mh.Filename, rw, ff)
 }
