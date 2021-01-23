@@ -18,12 +18,12 @@ import (
 	"github.com/rs/cors"
 )
 
-//////////Section For file uploading and serving//////////////////////////////////////////////
+////////// Section For file uploading and serving ///////////////////////////////////////////////
 var bindAddress = env.String("BIND_ADDRESS", false, ":9090", "Bind address for the server")
 var logLevel = env.String("LOG_LEVEL", false, "debug", "Log output level for the server [debug, info, trace]")
 var basePath = env.String("BASE_PATH", false, "./imagestore", "Base path to save images")
 
-//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 func main() {
 	// http.HandleFunc("/", handler)
@@ -34,6 +34,8 @@ func main() {
 	////////// Creating Connection with the MongoDB //////////////////////////////////////////////
 	conn := dbconnection.NewConnection(l)
 	conn.Connect()
+	clientConn := conn.GetClient()
+	conn.InsertInterface(clientConn)
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////// Section For file uploading and serving ////////////////////////////////////////////
