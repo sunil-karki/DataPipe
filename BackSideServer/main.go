@@ -33,9 +33,15 @@ func main() {
 
 	////////// Creating Connection with the MongoDB //////////////////////////////////////////////
 	conn := dbconnection.NewConnection(l)
-	conn.Connect()
-	clientConn := conn.GetClient()
-	conn.InsertInterface(clientConn)
+	// conn.Connect()
+	// clientConn := conn.GetClient()
+	// conn.InsertInterface(clientConn)
+	conn.CreateConnection()
+	conn.InsertInterface()
+	conn.InsertInterface()
+	conn.UpdateInterface()
+	conn.DeleteInterface()
+	conn.ReturnRecordInterface()
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////// Section For file uploading and serving ////////////////////////////////////////////
