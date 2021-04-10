@@ -21,8 +21,8 @@ export class FileUploadComponent {
 
     onUpload() {
         const fd = new FormData();
-        fd.append('image', this.selectedFile, this.selectedFile.name);
-        this.http.post('http://localhost:9090/images/1/success.txt', fd, {
+        fd.append('file', this.selectedFile, this.selectedFile.name);
+        this.http.post('http://localhost:9090/upload', fd, {
                 reportProgress: true,
                 observe: 'events'
               })

@@ -16,3 +16,27 @@ Then hit the command below
 go get go.mongodb.org/mongo-driver/mongo
 
 Then MongoDB Driver gets installed.
+
+===========================================================
+
+This method only works if you want to repair your data files without preserving the original files
+
+To find where you dbpath resides- vim /etc/mongodb.conf
+
+check for option dbpath=
+
+(I have dbpath=/var/lib/mongodb)
+
+Default: /data/db/
+
+Typical locations include: /srv/mongodb, /var/lib/mongodb or /opt/mongodb .
+
+Replace the /var/lib/mongodb with your dbpath
+
+sudo rm /var/lib/mongodb/mongod.lock
+sudo mongod --dbpath /var/lib/mongodb/ --repair
+sudo mongod --dbpath /var/lib/mongodb/ --journal
+(Make sure that you leave you terminal running in which you have run above lines, dont press 'Ctrl+c' or quit it.) Type the command to start mongo now in another window.
+
+Hope this works for you ! for those who want to repair your data files while preserving the original files mongo recover
+
