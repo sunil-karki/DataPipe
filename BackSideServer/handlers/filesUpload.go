@@ -56,7 +56,7 @@ func (pr *Progress) Print() {
 // 	http.ServeFile(w, r, "index.html")
 // }
 
-func uploadHandler(w http.ResponseWriter, r *http.Request) {
+func (p *FileUpload) UploadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
