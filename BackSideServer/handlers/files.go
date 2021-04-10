@@ -18,10 +18,9 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"../files"
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/go-hclog"
-
-	"../files"
 )
 
 // Files is a handler for reading and writing files
@@ -46,6 +45,7 @@ func (f *Files) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// no need to check for invalid id or filename as the mux router will not send requests
 	// here unless they have the correct parameters
 
+	fmt.Println("Printing Body")
 	fmt.Println(r.Body)
 
 	// To see the content of http.Request
@@ -54,9 +54,18 @@ func (f *Files) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error: On Ioutil ....")
 	}
 
+	fmt.Println("Printing reqbody")
 	fmt.Println(string(reqbody))
 
+	fmt.Println("-------------------------")
+	fmt.Println(r.Header["Content-Type"])
+	fmt.Println(r.Header["Content-Type"][0])
+	fmt.Println(r.GetBody())
+	fmt.Println(r.ContentLength)
+	fmt.Println("-------------------------")
+
 	io.Copy(os.Stdout, r.Body) // this line.
+	fmt.Println("Printing r")
 	fmt.Println()
 	fmt.Println(r)
 
@@ -107,6 +116,9 @@ func (f *Files) saveFile(id, path string, rw http.ResponseWriter, r io.ReadClose
 
 	fp := filepath.Join(id, path)
 	// err := f.store.Save(fp, r.Body)
+	fmt.Println()
+	fmt.Println("printing r in save module")
+	fmt.Println(r)
 	err := f.store.Save(fp, r)
 	if err != nil {
 		f.log.Error("Unable to save file", "error", err)
