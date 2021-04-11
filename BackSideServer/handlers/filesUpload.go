@@ -8,13 +8,18 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
-	"path/filepath"
 	"time"
+
+	"../dbconnection"
+	"../env"
 )
 
 const MAX_UPLOAD_SIZE = 1024 * 1024 // 1MB
+
+var basePath = env.String("BASE_PATH", false, "./uploads", "Base path to save images")
 
 // filesUpload will be a http.Handler
 type FileUpload struct {
@@ -57,6 +62,7 @@ func (pr *Progress) Print() {
 // }
 
 func (p *FileUpload) UploadHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("basepath : ", basePath)
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -110,13 +116,18 @@ func (p *FileUpload) UploadHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		f, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		fmt.Println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+		// fmt.Println(fmt.Sprintf("./%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		f, err := os.Create(fmt.Sprintf("./uploads/%s", fileHeader.Filename))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
+		p.InsertFile(w, fileHeader.Filename)
+
 		defer f.Close()
+		fmt.Println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 		pr := &Progress{
 			TotalSize: fileHeader.Size,
@@ -132,12 +143,11 @@ func (p *FileUpload) UploadHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Upload successful")
 }
 
-// func main() {
-// 	mux := http.NewServeMux()
-// 	mux.HandleFunc("/", IndexHandler)
-// 	mux.HandleFunc("/upload", uploadHandler)
-
-// 	if err := http.ListenAndServe(":4500", mux); err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
+// InsertFile inserts the meta data of each File uploaded to DB
+func (p *FileUpload) InsertFile(w http.ResponseWriter, filename string) {
+	// fetch the data from the datasource
+	l := log.New(os.Stdout, "Meta", log.LstdFlags)
+	fmt.Println("Filename : ", filename)
+	conn := dbconnection.NewConnection(l)
+	conn.InsertInterface(rand.Intn(500), rand.Intn(100), filename, "New file insertion", time.Now().Format("2006-01-02"), "File Upload")
+}

@@ -31,19 +31,6 @@ func main() {
 
 	// mw := handlers.GzipHandler{}
 
-	// ////////// Creating Connection with the MongoDB //////////////////////////////////////////////
-	// conn := dbconnection.NewConnection(l)
-	// // conn.Connect()
-	// // clientConn := conn.GetClient()
-	// // conn.InsertInterface(clientConn)
-	// conn.CreateConnection()
-	// // conn.InsertInterface()
-	// // conn.InsertInterface()
-	// // conn.UpdateInterface()
-	// // conn.DeleteInterface()
-	// conn.ReturnRecordInterface()
-	// //////////////////////////////////////////////////////////////////////////////////////////////
-
 	// creating a new serve mux and registering the handlers
 	smux := mux.NewRouter()
 	//////////////////////////////////////////////////////////////////////////////////////////////

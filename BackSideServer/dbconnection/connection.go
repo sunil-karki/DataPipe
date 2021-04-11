@@ -132,14 +132,13 @@ func (conn *Connections) InsertRecord(product Product) interface{} {
 	return insertResult.InsertedID
 }
 
-// InsertInterface is Temp Func for later implementation
-func (conn *Connections) InsertInterface() {
+// InsertInterface inserts the record passed to the database
+func (conn *Connections) InsertInterface(fileid int, position int, filename string, desc string, filedate string, src string) {
 
-	product := Product{Fileid: 14, Position: 12, Filename: "Doctor Strange File", Description: "Doctor Strange", Filedate: "2021-01-24", Source: "From PY"}
+	product := Product{Fileid: fileid, Position: position, Filename: filename, Description: desc, Filedate: filedate, Source: src}
 	// insertedID := InsertRecord(clientcon, product)
 	insertedID := conn.InsertRecord(product)
 	conn.l.Println("Record Inserted :: ", insertedID)
-
 }
 
 // UpdateRecord updates the value of a record
@@ -201,11 +200,11 @@ func (conn *Connections) ReturnAllRecords(filter bson.M) []*Product {
 // ReturnRecordInterface is Temp Func for later implementation
 func (conn *Connections) ReturnRecordInterface() []*Product {
 	conn.l.Println("Returning Records")
-	products := conn.ReturnAllRecords(bson.M{})
+	records := conn.ReturnAllRecords(bson.M{})
 	// for _, product := range products {
 	// 	conn.l.Println(product.Filename, product.Description, product.Filedate)
 	// }
-	return products
+	return records
 
 	// conn.l.Println("Returning matching Filedate")
 	// products = conn.ReturnAllRecords(bson.M{"filedate": "2021-02-24"})

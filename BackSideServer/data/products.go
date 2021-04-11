@@ -29,10 +29,9 @@ type Product = dataStr.Product
 // Products is a collection of Product
 type Products []*Product
 
-// productList is a hard coded list of products for this
-// example data source
+// productList is a hard coded list of products as an example of data source
 var productList = []*Product{
-	&Product{
+	&dataStr.Product{
 		Fileid:      1,
 		Position:    1,
 		Filename:    "Latte",
@@ -40,7 +39,7 @@ var productList = []*Product{
 		Filedate:    time.Now().UTC().String(),
 		Source:      "abc323",
 	},
-	&Product{
+	&dataStr.Product{
 		Fileid:      2,
 		Position:    2,
 		Filename:    "Espresso",
