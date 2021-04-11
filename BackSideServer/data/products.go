@@ -4,18 +4,27 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
+	"os"
 	"time"
+
+	"../dbconnection"
+
+	dataStr "../interfaces"
 )
 
 // Product defines the structure for an API product
-type Product struct {
-	Fileid      int    `json:"fileid"`
-	Position    int    `json:"position"`
-	Filename    string `json:"filename"`
-	Description string `json:"description"`
-	Filedate    string `json:"filedate"`
-	Source      string `json:"source"`
-}
+// type Product struct {
+// 	Fileid      int    `json:"fileid" bson:"fileid"`
+// 	Position    int    `json:"position" bson:"position"`
+// 	Filename    string `json:"filename" bson:"filename"`
+// 	Description string `json:"description" bson:"description"`
+// 	Filedate    string `json:"filedate" bson:"filedate"`
+// 	Source      string `json:"source" bson:"source"`
+// }
+
+// Product defines the structure for an API dataSource
+type Product = dataStr.Product
 
 // Products is a collection of Product
 type Products []*Product
@@ -53,7 +62,7 @@ func (p *Products) ToJSON(w io.Writer) error {
 }
 
 // FromJSON Decodes JSON
-func (p *Product) FromJSON(r io.Reader) error {
+func (p *Products) FromJSON(r io.Reader) error {
 	e := json.NewDecoder(r)
 	return e.Decode(p)
 }
@@ -61,6 +70,22 @@ func (p *Product) FromJSON(r io.Reader) error {
 // GetProducts returns a list of products
 func GetProducts() Products {
 	return productList
+}
+
+func GetData() Products {
+	// fetch the data from the datasource
+	l := log.New(os.Stdout, "DB ", log.LstdFlags)
+	conn := dbconnection.NewConnection(l)
+	// conn.Connect()
+	// clientConn := conn.GetClient()
+	// conn.InsertInterface(clientConn)
+	conn.CreateConnection()
+	// conn.InsertInterface()
+	// conn.InsertInterface()
+	// conn.UpdateInterface()
+	// conn.DeleteInterface()
+	return conn.ReturnRecordInterface()
+	//////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // AddProduct adds product

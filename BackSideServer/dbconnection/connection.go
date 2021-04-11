@@ -14,6 +14,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	dataStr "../interfaces"
 )
 
 // MongoDB Configs
@@ -106,14 +108,17 @@ func (conn *Connections) CreateConnection() {
 }
 
 // Product defines the structure for an API product
-type Product struct {
-	Fileid      int    `json:"fileid" bson:"fileid"`
-	Position    int    `json:"position" bson:"position"`
-	Filename    string `json:"filename" bson:"filename"`
-	Description string `json:"description" bson:"description"`
-	Filedate    string `json:"filedate" bson:"filedate"`
-	Source      string `json:"source" bson:"source"`
-}
+// type Product struct {
+// 	Fileid      int    `json:"fileid" bson:"fileid"`
+// 	Position    int    `json:"position" bson:"position"`
+// 	Filename    string `json:"filename" bson:"filename"`
+// 	Description string `json:"description" bson:"description"`
+// 	Filedate    string `json:"filedate" bson:"filedate"`
+// 	Source      string `json:"source" bson:"source"`
+// }
+
+// Product defines the structure for an API dataSource
+type Product = dataStr.Product
 
 // InsertRecord insert a new record in the Collection
 // Returns ObjectID of each Document/Record inserted.
@@ -194,16 +199,17 @@ func (conn *Connections) ReturnAllRecords(filter bson.M) []*Product {
 }
 
 // ReturnRecordInterface is Temp Func for later implementation
-func (conn *Connections) ReturnRecordInterface() {
-	conn.l.Println("Returning All")
+func (conn *Connections) ReturnRecordInterface() []*Product {
+	conn.l.Println("Returning Records")
 	products := conn.ReturnAllRecords(bson.M{})
-	for _, product := range products {
-		conn.l.Println(product.Filename, product.Description, product.Filedate)
-	}
+	// for _, product := range products {
+	// 	conn.l.Println(product.Filename, product.Description, product.Filedate)
+	// }
+	return products
 
-	conn.l.Println("Returning matching Filedate")
-	products = conn.ReturnAllRecords(bson.M{"filedate": "2021-02-24"})
-	for _, product := range products {
-		conn.l.Println(product.Filename, product.Description, product.Filedate)
-	}
+	// conn.l.Println("Returning matching Filedate")
+	// products = conn.ReturnAllRecords(bson.M{"filedate": "2021-02-24"})
+	// for _, product := range products {
+	// 	conn.l.Println(product.Filename, product.Description, product.Filedate)
+	// }
 }
