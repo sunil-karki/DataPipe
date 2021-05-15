@@ -1,10 +1,21 @@
-Install MongoDB
+Basic commands in MongoDB
 
 sudo systemctl mongod stop
 sudo systemctl restart mongod
 sudo systemctl start mongod
 
 -----------------------------------------------------------
+
+Start MongoDB:
+  sudo mongod
+  
+Open MongoDB CLI:
+  sudo mongo
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+
+Miscellaneous :
 
 Install MongoDB Driver for Golang
 Follow Link : https://docs.mongodb.com/drivers/go

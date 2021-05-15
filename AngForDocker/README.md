@@ -1,36 +1,50 @@
-# Adding Bootstrap
-One links added as 
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-[Inside head]
+# Angular Project setup
 
-And other links as 
-<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+**Step 1: Adding Bootstrap**
+-------------------------------------------------------------------
+
+  **_Option: 1 -  Add the three links on `index.html` as below_**
+  
+  [ Inside HEAD ] 
+  ```html
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  ```
+  [ Inside Body ] 
+  ```html
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-[Inside Body]
+  ```
 
-Three links can be added as follows above
+  **_Option: 2 -  Next Method_**  
+
+  Run the following command:
+
+    npm install bootstrap@3 jquery --save
+
+  Then add the following in the `angular.json` file
+  
+    "styles": [
+      "src/styles.css",
+      "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    "scripts": [
+      "../node_modules/jquery/dist/jquery.min.js",
+      "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ]
+
 --------------------------------------------------------------------------------------------------------------------------------
-
-Next Method ::
-npm install bootstrap@3 jquery --save
-
-Then Add following in the Angular.json File
-
-            "styles": [
-              "src/styles.css",
-              "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-            ],
-            "scripts": [
-              "../node_modules/jquery/dist/jquery.min.js",
-              "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
-
 --------------------------------------------------------------------------------------------------------------------------------            
-# Then add Angular Material for DataTable
-ng add @angular/material
-Then Add MatTableModule, MatPaginatorModule, MatSortModule to the App Module
+
+**Step 2: Add Angular Material for DataTable**
+------------------------------------------------------------------
+
+    ng add @angular/material
+
+Then add MatTableModule, MatPaginatorModule, MatSortModule to the `app.module.ts` file.
 
 --------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
 
 # Sample
 

@@ -1,4 +1,4 @@
-**AirFlow PipeLine**
+# AirFlow PipeLine
 ----------------------------------------------------------
 
     Contains Nodes/DAGs for ETL Process
@@ -67,8 +67,10 @@ A DAG 'Helloworld' is created in the main.py
 -----------------------------------------------------------
 -----------------------------------------------------------
 
-Helpful Links:
+_Helpful Links:_
 
    https://medium.com/@jacksonbull1987/how-to-install-apache-airflow-6b8a2ae60050
+
    https://towardsdatascience.com/getting-started-with-airflow-using-docker-cd8b44dbff98
 
+   https://github.com/vishalsatam/Data-Pipelining/tree/master/Airflow
