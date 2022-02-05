@@ -1,4 +1,2 @@
 # DataPipe
-Repo for Docker and Airflow
-
-Golang+Angular
+Repo for Docker and Airflow || Golang + Angular
